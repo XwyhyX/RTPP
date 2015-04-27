@@ -15,7 +15,24 @@
 
     <!-- Custom styles for this template -->
     <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
+	
+	
+	<!-- Test ONLY -->
+	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link type="text/css" rel="stylesheet" href="css/graph.css">
+    <link type="text/css" rel="stylesheet" href="css/detail.css">
+    <link type="text/css" rel="stylesheet" href="css/legend.css">
+    <link type="text/css" rel="stylesheet" href="css/lines.css">
 
+    <script src="vendor/d3.min.js"></script>
+    <script src="vendor/d3.layout.min.js"></script>
+
+    <script src="rickshaw.min.js"></script>
+    <script src="vendor/moment.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+    <script src="http://d23cj0cdvyoxg0.cloudfront.net/xivelyjs-1.0.3.min.js"></script> 
+	
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="./Dashboard Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
@@ -149,14 +166,14 @@
           <div class="row placeholders">
             <div class="col-md-6 col-md-6 ">
             	<h4>Latest Reading: <span id="myPulse"></span></h4>
-            	
+            	<!--Remove Temporarily
               <img src="https://api.xively.com/v2/feeds/122670740/datastreams/Pulse.png?w=600&h=150&c=2188c5&g=true&t=PULSE&b=true&duration=1days&scale=Datastream&timezone=+08&l=Mapua">
-              
+              -->
                <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner" style="height: 500px">
+      <section id="main_content" class="inner" style="height: 150px">
       <div id="chart_container" >
-          <div id="chart"></div>
+          <div id="chart" style="height: 150px"></div>
           <div id="legend_container">
             <div id="smoother" title="Smoothing"></div>
             <div id="legend"></div>
@@ -307,8 +324,8 @@ function loadData(data) {
 function drawGraph(data, unit) {
   var graph = new Rickshaw.Graph( {
     element: document.querySelector("#chart"),
-    width: 640,
-    height: 400,
+    width: 500,
+    height: 150,
     renderer: 'line',
     series: [
       {
