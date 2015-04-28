@@ -183,7 +183,7 @@
       </section>
     </div>
                             
-              <h4>Latest Reading: <span id="myPulse"></span></h4>
+              <h4>Latest Pulse Reading: <span id="myPulse"></span></h4>
               <span class="text-muted">(BPM)</span>
               </div>
               
@@ -216,46 +216,33 @@
 
 			</form>
 			
-             <!-- <table id="table" class="table table-responsive">
-              <thead>
-              	<tr>
-              		<th>Range</th>
-              		<th>Definition</th>
-              	</tr>
-              </thead>
-              <tbody>
-              	<tr>
-              		<td>50-60</td>
-              		<td>Normal Zone</td>
-              	</tr>
-              	<tr>
-              		<td>60-70 BPM</td>
-              		<td>Slightly Active</td>
-              	</tr>
-              	<tr>
-              		<td>70-90 BPM</td>
-              		<td>Aerobic Zone</td>
-              	</tr>
-              	<tr>
-              		<td>90-110 BPM</td>
-              		<td>Exercise Zone</td>
-              	</tr>
-
-
-              </tbody>
-              </table>-->
-              </div>
+                           </div>
               
             </div>
 			
 			<div class="row placeholders">
             <div class="col-md-6 col-md-6 ">
-              <img src="https://api.xively.com/v2/feeds/122670740/datastreams/Steps.png?w=600&h=150&c=2188c5&g=true&t=Steps&b=true&duration=1days&scale=Datastream&timezone=+08&l=Mapua">
-              <h4>Steps</h4>
+            
+             <!-- MAIN CONTENT -->
+    <div id="main_content_wrap2" class="outer">
+      <section id="main_content2" class="inner" style="height: 150px">
+      <div id="chart_container2" >
+          <div id="chart2" style="height: 150px"></div>
+          <div id="legend_container2">
+            <div id="smoother2" title="Smoothing"></div>
+            <div id="legend2" style="margin-right:auto"></div>
+          </div>
+          <div id="slider2"></div>
+      </div>
+
+      </section>
+    </div>
+				
+              <h4>Latest Step Reading: <span id="mySteps"></span></h4>
               <span class="text-muted"></span>
               </div>
               
-              <div class="row placeholders">
+            <!--  <div class="row placeholders">
 			<div class="col-md-6 col-md-6 ">
 
               <p class="lead"> Only _____ more steps to go!
@@ -264,7 +251,7 @@
               </div>
               
             </div>
-			
+				-->
 
           
 			       
@@ -290,6 +277,8 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./Dashboard Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>
   	
+  	
+  	<!-- PULSE GRAPHS-->
   	<script>
   	xively.setKey( "oVtZfDth0bIF0G2Vm6UaxaoDux62U1Z5CBkAFIvecLCReTUV" );  
  
@@ -409,5 +398,130 @@ function drawGraph(data, unit) {
      
     
   	</script> 
+  	
+  	<!-- PULSE GRAPHS-->
+  	<script>
+  	xively.setKey( "oVtZfDth0bIF0G2Vm6UaxaoDux62U1Z5CBkAFIvecLCReTUV" );  
+ 
+	var startOfYesterday2 = moment().subtract("day", 1).startOf('day');
+	var endOfYesterday2 = moment().startOf('day');
+ 
+console.log(startOfYesterday2);
+console.log(endOfYesterday2);
+ 
+var query2 = { 
+  start: startOfYesterday2.toJSON(), 
+  end: endOfYesterday2.toJSON(), 
+  interval: 60, 
+  limit: 1000 
+};
+ 
+xively.datastream.history( "122670740", "Steps", query2, loadData2);  
+ 
+function loadData2(data2) {  
+  var unit2 = data2.unit.label;
+  var series2 = [];
+  var filtedData2 = data2.datapoints.filter(function(x) { return (x.value < 1000); });
+  for (var i=0; i < filtedData2.length; i++ ) {
+    var date2 = moment(filtedData2[i].at);
+    var value2 = parseInt(filtedData2[i].value);
+    series2[i] = {x: date2.unix(), y: value2};
+  }
+  drawGraph2(series2, unit2);
+}
+ 
+function drawGraph2(data2, unit2) {
+  var graph2 = new Rickshaw.Graph( {
+    element: document.querySelector("#chart2"),
+    width: 500,
+    height: 150,
+    renderer: 'line',
+    series: [
+      {
+        data: data2,
+        color: '#6060c0',
+        name: unit2
+      }
+    ]
+  } );
+  graph2.render();
+ 
+  var hoverDetail2 = new Rickshaw.Graph.HoverDetail( {
+    graph: graph2
+  } );
+ 
+  var legend2 = new Rickshaw.Graph.Legend( {
+    graph: graph2,
+    element: document.getElementById('legend2')
+  } );
+ 
+  var shelving2 = new Rickshaw.Graph.Behavior.Series.Toggle( {
+    graph: graph2,
+    legend: legend2
+  } );
+ 
+ 
+  var axes2 = new Rickshaw.Graph.Axis.Time( {
+    graph: graph2
+  });
+  axes2.render();
+  
+  var yAxis2 = new Rickshaw.Graph.Axis.Y({
+      graph: graph2
+  });
+ 
+  yAxis2.render();
+}
+</script>
+    	
+  	
+  	<script>  
+  	    
+     // Make sure the document is ready to be handled  
+    $(document).ready(function($) {  
+      
+      // Set the Xively API key  
+    xively.setKey( "KG3fZO3I41OiP4pNbW0VuNfTlsdUzmBbnDaWOXRV4Dkt0NZy" ); 
+     
+      
+      // Replace with your own values  
+      var feedID2        = 122670740,          // Feed ID  
+          datastreamID2  = "Steps";       // Datastream ID  
+          selector2      = "#mySteps";   // Your element on the page  
+      
+      // Get datastream data from Xively  
+      xively.datastream.get (feedID2, datastreamID2, function ( datastream ) {  
+        // WARNING: This code is only executed when we get a response back from Xively,   
+        // it will likely execute after the rest your script  
+        //  
+        // NOTE: The variable "datastream" will contain all the Datastream information   
+        // as an object. The structure of Datastream objects can be found at:   
+        // https://xively.com/dev/docs/api/quick_reference/api_resource_attributes/#datastream  
+      
+        // Display the current value from the datastream  
+        $(selector2).html( datastream["current_value"] );  
+      
+        // Getting realtime!   
+        // The function associated with the subscribe method will be executed   
+        // every time there is an update to the datastream  
+        xively.datastream.subscribe( feedID2, datastreamID2, function ( event , datastream_updated ) {  
+          // Display the current value from the updated datastream  
+          $(selector).html( datastream_updated["current_value"] );  
+        });  
+      
+      });  
+      
+      // WARNING: Code here will continue executing while we get the datastream data from Xively,   
+      // use the function associated with datastream.get to work with the data   
+      // once the request is complete  
+    });  
+     
+    
+     
+    
+  	</script> 
 
-<div id="global-zeroclipboard-html-bridge" class="global-zeroclipboard-container" style="position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;">      <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="global-zeroclipboard-flash-bridge" width="100%" height="100%">         <param name="movie" value="/assets/flash/ZeroClipboard.swf?noCache=1425138496877">         <param name="allowScriptAccess" value="sameDomain">         <param name="scale" value="exactfit">         <param name="loop" value="false">         <param name="menu" value="false">         <param name="quality" value="best">         <param name="bgcolor" value="#ffffff">         <param name="wmode" value="transparent">         <param name="flashvars" value="trustedOrigins=getbootstrap.com%2C%2F%2Fgetbootstrap.com%2Chttp%3A%2F%2Fgetbootstrap.com">         <embed src="/assets/flash/ZeroClipboard.swf?noCache=1425138496877" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="100%" height="100%" name="global-zeroclipboard-flash-bridge" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="trustedOrigins=getbootstrap.com%2C%2F%2Fgetbootstrap.com%2Chttp%3A%2F%2Fgetbootstrap.com" scale="exactfit">                </object></div><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" preserveAspectRatio="none" style="visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs></defs><text x="0" y="10" style="font-weight:bold;font-size:10pt;font-family:Arial, Helvetica, Open Sans, sans-serif;dominant-baseline:middle">200x200</text></svg></body></html>
+
+<div id="global-zeroclipboard-html-bridge" class="global-zeroclipboard-container" style="position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;">      <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="global-zeroclipboard-flash-bridge" width="100%" height="100%">         <param name="movie" value="/assets/flash/ZeroClipboard.swf?noCache=1425138496877">         <param name="allowScriptAccess" value="sameDomain">         <param name="scale" value="exactfit">         <param name="loop" value="false">         <param name="menu" value="false">         <param name="quality" value="best">         <param name="bgcolor" value="#ffffff">         <param name="wmode" value="transparent">         <param name="flashvars" value="trustedOrigins=getbootstrap.com%2C%2F%2Fgetbootstrap.com%2Chttp%3A%2F%2Fgetbootstrap.com">         <embed src="/assets/flash/ZeroClipboard.swf?noCache=1425138496877" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="100%" height="100%" name="global-zeroclipboard-flash-bridge" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="trustedOrigins=getbootstrap.com%2C%2F%2Fgetbootstrap.com%2Chttp%3A%2F%2Fgetbootstrap.com" scale="exactfit">                </object></div><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" preserveAspectRatio="none" style="visibility: hidden; position: absolute; top: -100%; left: -100%;"><defs></defs><text x="0" y="10" style="font-weight:bold;font-size:10pt;font-family:Arial, Helvetica, Open Sans, sans-serif;dominant-baseline:middle">200x200</text></svg>
+
+</body></html>
