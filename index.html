@@ -48,13 +48,14 @@
 				var max = form.elements["TargetMax"];
 				var trainmax = form.elements["TrainMax"];
 				var trainmin = form.elements["TrainMin"];
+				
 
 				var num1 = parseInt(form.elements["age"].value);
 				var num2 = parseInt(form.elements["rest"].value);
 			    max.value = (205.8-(0.685*num1)).toFixed(0);
 			    trainmax.value = (0.90*max.value).toFixed(0);
 			    trainmin.value = (0.65*max.value).toFixed(0);
-								
+							
 				var table = document.getElementById("range");
 				var range1a = table.elements["1a"];
 				var range1b = table.elements["1b"];
@@ -119,25 +120,11 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="index.html">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="reports.html">Reports</a></li>
+            <li><a href="https://personal.xively.com/develop/ghAY--ggq0S7c1mBziiU">Reports</a></li>
             <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Zones</a></li>
             <li><a href="./Dashboard Template for Bootstrap_files/Dashboard Template for Bootstrap.html">Export</a></li>
           </ul>
-          <!--
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
-          -->
-        </div>
+                 </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h2 class="sub-header">User Info</h2>
 				<form class="form-inline" id="calc" oninput="updateOutput()">
@@ -165,23 +152,8 @@
           <div class="row placeholders">
             <div class="col-md-6 col-md-6 ">
             	
-            	<!--Remove Temporarily
-              <img src="https://api.xively.com/v2/feeds/122670740/datastreams/Pulse.png?w=600&h=150&c=2188c5&g=true&t=PULSE&b=true&duration=1days&scale=Datastream&timezone=+08&l=Mapua">
-              -->
-               <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner" style="height: 150px">
-      <div id="chart_container" >
-          <div id="chart" style="height: 150px"></div>
-          <div id="legend_container">
-            <div id="smoother" title="Smoothing"></div>
-            <div id="legend"></div>
-          </div>
-          <div id="slider"></div>
-      </div>
-
-      </section>
-    </div>
+                
+    			<img src="https://api.xively.com/v2/feeds/122670740/datastreams/Pulse.png?w=600&h=150&g=true&timezone=8.0&b=true&duration=6hours">
                             
               <h4>Latest Pulse Reading: <span id="myPulse"></span></h4>
               <span class="text-muted">(BPM)</span>
@@ -224,6 +196,7 @@
             <div class="col-md-6 col-md-6 ">
             
              <!-- MAIN CONTENT -->
+             <!--
     <div id="main_content_wrap2" class="outer">
       <section id="main_content2" class="inner" style="height: 150px">
       <div id="chart_container2" >
@@ -236,22 +209,32 @@
       </div>
 
       </section>
-    </div>
-				
+    </div> -->
+				<img src="https://api.xively.com/v2/feeds/122670740/datastreams/Steps.png?w=600&h=150&g=true&timezone=8.0&b=true&duration=6hours">
+
               <h4>Latest Step Reading: <span id="mySteps"></span></h4>
               <span class="text-muted"></span>
               </div>
               
-            <!--  <div class="row placeholders">
+             <div class="row placeholders">
 			<div class="col-md-6 col-md-6 ">
-
-              <p class="lead"> Only _____ more steps to go!
+				<form class="center-block" id="stepChart">
+              <p class="lead"> Only
+              
+              	 
+					<span class="label label-default" id="stepToGo" ></span>              		
+              		
+				 more steps to go!
               </p>
-              <p class="lead">You have achieved ___% of your Step Goal for March 2, 2015.</p>
+              <p class="lead">You have achieved 
+              <span class="label label-default" id="stepPercent" ></span> 
+              % of the 10,000 Step Goal               <span class="label label-default" id="stepDate" ></span> 
+ 				.</p>
+              </form>
               </div>
               
             </div>
-				-->
+				
 
           
 			       
@@ -353,6 +336,7 @@ function drawGraph(data, unit) {
 }
   	</script>
   	
+  	  	
   	<script>  
   	    
      // Make sure the document is ready to be handled  
@@ -366,7 +350,7 @@ function drawGraph(data, unit) {
       var feedID        = 122670740,          // Feed ID  
           datastreamID  = "Pulse";       // Datastream ID  
           selector      = "#myPulse";   // Your element on the page  
-      
+      	 
       // Get datastream data from Xively  
       xively.datastream.get (feedID, datastreamID, function ( datastream ) {  
         // WARNING: This code is only executed when we get a response back from Xively,   
@@ -377,14 +361,15 @@ function drawGraph(data, unit) {
         // https://xively.com/dev/docs/api/quick_reference/api_resource_attributes/#datastream  
       
         // Display the current value from the datastream  
-        $(selector).html( datastream["current_value"] );  
+        $(selector).html(datastream["current_value"] );  
+       
       
         // Getting realtime!   
         // The function associated with the subscribe method will be executed   
         // every time there is an update to the datastream  
         xively.datastream.subscribe( feedID, datastreamID, function ( event , datastream_updated ) {  
           // Display the current value from the updated datastream  
-          $(selector).html( datastream_updated["current_value"] );  
+          $(selector).html(datastream_updated["current_value"] );  
         });  
       
       });  
@@ -399,6 +384,7 @@ function drawGraph(data, unit) {
     
   	</script> 
   	
+  	  	
   	<!-- PULSE GRAPHS-->
   	<script>
   	xively.setKey( "oVtZfDth0bIF0G2Vm6UaxaoDux62U1Z5CBkAFIvecLCReTUV" );  
@@ -488,7 +474,8 @@ function drawGraph2(data2, unit2) {
       var feedID2        = 122670740,          // Feed ID  
           datastreamID2  = "Steps";       // Datastream ID  
           selector2      = "#mySteps";   // Your element on the page  
-      
+      	  selector3		 = "#stepToGo"; // Steps left 
+      	  selector4		 = "#stepPercent";
       // Get datastream data from Xively  
       xively.datastream.get (feedID2, datastreamID2, function ( datastream ) {  
         // WARNING: This code is only executed when we get a response back from Xively,   
@@ -500,13 +487,18 @@ function drawGraph2(data2, unit2) {
       
         // Display the current value from the datastream  
         $(selector2).html( datastream["current_value"] );  
-      
+        $(selector3).html(10000 - datastream["current_value"] );
+        $(selector4).html(((datastream["current_value"])/10000)*100 );
+
         // Getting realtime!   
         // The function associated with the subscribe method will be executed   
         // every time there is an update to the datastream  
         xively.datastream.subscribe( feedID2, datastreamID2, function ( event , datastream_updated ) {  
           // Display the current value from the updated datastream  
-          $(selector).html( datastream_updated["current_value"] );  
+          $(selector2).html( datastream_updated["current_value"] ); 
+          $(selector3).html( datastream_updated["current_value"] );
+          $(selector4).html(((datastream["current_value"])/10000)*100 );
+  
         });  
       
       });  
