@@ -52,11 +52,13 @@
 
 				var num1 = parseInt(form.elements["age"].value);
 				var num2 = parseInt(form.elements["rest"].value);
-			    max.value = (205.8-(0.685*num1)).toFixed(0);
-			    trainmax.value = (0.90*max.value).toFixed(0);
-			    trainmin.value = (0.65*max.value).toFixed(0);
+			    max.value = (211-(0.64*num1)).toFixed(0);
+			    trainmax.value = (((max.value-num2)*1)+num2).toFixed(0);
+			    trainmin.value = (((max.value-num2)*0.50)+num2).toFixed(0);
 							
 				var table = document.getElementById("range");
+				var range1aa = table.elements["1aa"];
+				var range1bb = table.elements["1bb"];
 				var range1a = table.elements["1a"];
 				var range1b = table.elements["1b"];
 				var range2a = table.elements["2a"];
@@ -66,16 +68,24 @@
 				var range4a = table.elements["4a"];
 				var range4b = table.elements["4b"];
 
-
-				range1a.value = ((205.8-(0.685*num1))*0.65).toFixed(0);
-				range1b.value = ((205.8-(0.685*num1))*0.75).toFixed(0);
+				range1aa.value = (((max.value-num2)*0.50)+num2).toFixed(0);
+				range1bb.value = (((max.value-num2)*0.60)+num2).toFixed(0);
+				range1a.value = (((max.value-num2)*0.60)+num2).toFixed(0);
+				range1b.value = (((max.value-num2)*0.70)+num2).toFixed(0);
+				range2a.value = (((max.value-num2)*0.70)+num2).toFixed(0);
+				range2b.value = (((max.value-num2)*0.80)+num2).toFixed(0);
+				range3a.value = (((max.value-num2)*0.80)+num2).toFixed(0);
+				range3b.value = (((max.value-num2)*0.90)+num2).toFixed(0);
+				range4a.value = (((max.value-num2)*0.90)+num2).toFixed(0);
+				range4b.value = (((max.value-num2)*1)+num2).toFixed(0);
+				
+				/*range1b.value = ((205.8-(0.685*num1))*0.75).toFixed(0);
 				range2a.value = ((205.8-(0.685*num1))*0.75).toFixed(0);
 				range2b.value = ((205.8-(0.685*num1))*0.80).toFixed(0);
 				range3a.value = ((205.8-(0.685*num1))*0.80).toFixed(0);
 				range3b.value = ((205.8-(0.685*num1))*0.85).toFixed(0);
 				range4a.value = ((205.8-(0.685*num1))*0.85).toFixed(0);
-				range4b.value = ((205.8-(0.685*num1))*0.90).toFixed(0);
-
+				range4b.value = ((205.8-(0.685*num1))*0.90).toFixed(0); */
 
 
 
@@ -162,23 +172,28 @@
               <div class="row placeholders">
 			<div class="col-md-6 col-md-6 ">
 			<form class="form-inline" id="range">
+					<label for="disabledTextInput">Recovery Zone</label>
+     				 <output type="number" id="disabledTextInput" class="form-control" name="1aa" for="age rest">125</output>
+     				 <label for="disabledTextInput">-</label>
+     				 <output type="number" id="disabledTextInput" class="form-control" name="1bbb" for="age rest">144</output><br><br>
+
 			
-					<label for="disabledTextInput">Aerobic Zone</label>
+					<label for="disabledTextInput">Aerobic/ Extensive Zone</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="1a" for="age rest">125</output>
      				 <label for="disabledTextInput">-</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="1b" for="age rest">144</output><br><br>
      				 
-     				 <label for="disabledTextInput">Extensive Endurance</label>
+     				 <label for="disabledTextInput">Intensive Endurance Zone</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="2a" for="age rest">144</output>
      				 <label for="disabledTextInput">-</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="2b" for="age rest">154</output><br><br>
      				 
-     				 <label for="disabledTextInput">Intensive Endurance</label>
+     				 <label for="disabledTextInput">Anaerobic Thresholf</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="3a" for="age rest">154</output>
      				 <label for="disabledTextInput">-</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="3b" for="age rest">163</output><br><br>
      				 
-     				 <label for="disabledTextInput">Anaerobic Threshold</label>
+     				 <label for="disabledTextInput">Maximum Aerobic</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="4a" for="age rest">163</output>
      				 <label for="disabledTextInput">-</label>
      				 <output type="number" id="disabledTextInput" class="form-control" name="4b" for="age rest">173</output><br><br>
