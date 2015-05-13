@@ -511,7 +511,7 @@ function drawGraph2(data2, unit2) {
         xively.datastream.subscribe( feedID2, datastreamID2, function ( event , datastream_updated ) {  
           // Display the current value from the updated datastream  
           $(selector2).html( datastream_updated["current_value"] ); 
-          $(selector3).html( datastream_updated["current_value"] );
+          $(selector3).html( 10000 - datastream_updated["current_value"] );
           $(selector4).html(((datastream["current_value"])/10000)*100 );
   
         });  
